@@ -2,6 +2,8 @@
 
 This repository provides a Docker-based API to train and predict compound bioactivity using deep learning, based on [ahmetrifaioglu's DEEPScreen](https://github.com/cansyl/DEEPScreen) published in [Chemical Science (2020)](https://doi.org/10.1039/C9SC03414E).
 
+TrypanoDEEPScreen is implemented using PyTorch Lightning and leverages Ray Tune for efficient hyperparameter search. GPU usage and parallelization (when available) are completely handled by the pipeline. It also fixes some bugs from the original predictor, and implements enseambleing.
+
 ## What is Docker?
 
 Docker is a platform that allows applications to run inside isolated environments called containers. A container includes everything needed to execute an application, such as libraries, dependencies, and system configurations, ensuring consistency across different computing environments.
@@ -266,5 +268,5 @@ max_gpus: 2   # Maximum number of GPUs to use
 
 ---
 ## Notes
-Contact the repository [maintainer](sebij1910@gmail.com) for further assistance. 
+Contact the repository [maintainer](mailto:sebij1910@gmail.com) for further assistance. 
 

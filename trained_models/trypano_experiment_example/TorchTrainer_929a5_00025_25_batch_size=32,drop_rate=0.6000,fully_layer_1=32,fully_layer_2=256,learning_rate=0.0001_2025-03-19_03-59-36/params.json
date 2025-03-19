@@ -1,0 +1,9 @@
+{
+  "train_loop_config": {
+    "batch_size": 32,
+    "drop_rate": 0.6,
+    "fully_layer_1": 32,
+    "fully_layer_2": 256,
+    "learning_rate": 0.0001
+  }
+}

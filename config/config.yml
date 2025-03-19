@@ -1,0 +1,27 @@
+mol_draw_options: # Settings for molecule structure visualization
+  atomLabelFontSize: 55  # Font size for atom labels
+  dotsPerAngstrom: 100   # Resolution for rendering molecules
+  bondLineWidth: 1       # Width of molecular bonds in the rendering
+
+img_size: 200  # Size of molecule images used in training
+
+use_tmp_imgs: False  # Whether to store generated images persistently or use temporary storage
+
+hyperparameters_search: # Hyperparameters for model training
+  fully_layer_1: [16, 32, 128, 256, 512]  # First hidden layer sizes
+  fully_layer_2: [16, 32, 128, 256, 512]  # Second hidden layer sizes
+  learning_rate: [0.0005, 0.0001, 0.005, 0.001, 0.01]  # Learning rates to test
+  batch_size: [32, 64]  # Mini-batch sizes for training
+  drop_rate: [0.3, 0.5, 0.6, 0.8]  # Dropout rates for regularization
+
+hyperparameters_search_setup: # Configuration for hyperparameter optimization
+  max_epochs: 100  # Maximum training epochs
+  grace_period: 13  # Number of epochs before pruning underperforming trials
+  metric_to_optimize: "val_auroc"  # Performance metric to optimize
+  optimize_mode: "max"  # Whether to maximize or minimize the metric
+  num_samples: 350  # Number of hyperparameter combinations to test
+  asha_reduction_factor: 4  # Reduction factor for adaptive stopping
+  number_ckpts_keep: 2  # Number of model checkpoints to retain
+
+max_cpus: 40  # Maximum number of CPU cores to use
+max_gpus: 2   # Maximum number of GPUs to use

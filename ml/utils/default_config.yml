@@ -1,0 +1,32 @@
+mol_draw_options:
+  atomLabelFontSize: 55
+  dotsPerAngstrom: 100
+  bondLineWidth: 1
+
+img_size: 200
+
+use_tmp_imgs: False
+
+hyperparameters_search:
+  fully_layer_1: [16, 32, 128, 256, 512]
+  fully_layer_2: [16, 32, 128, 256, 512]
+  learning_rate: [0.0005, 0.0001, 0.005, 0.001, 0.01]
+  batch_size: [32, 64]
+  drop_rate: [0.3, 0.5, 0.6, 0.8]
+
+hyperparameters_search_setup:
+  max_epochs: 100
+  grace_period: 13
+  metric_to_optimize: "val_mcc"
+  optimize_mode: "max"
+  num_samples: 350
+  asha_reduction_factor: 4
+  number_ckpts_keep: 1
+
+data_splitting:
+  frac_train: 0.8
+  frac_valid: 0.2
+  frac_test: 0
+
+max_cpus: 3  # Define la cantidad máxima de CPUs a usar
+max_gpus: 2   # Define la cantidad máxima de GPUs a usar

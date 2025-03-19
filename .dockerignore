@@ -1,0 +1,42 @@
+# Ignorar archivos y carpetas innecesarias
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+
+# Ignorar archivos de control de versiones
+.git/
+.gitignore
+
+# Ignorar entornos virtuales locales
+.env
+.venv/
+venv/
+env/
+
+# Ignorar configuraciones del usuario
+*.DS_Store
+*.log
+*.tmp
+
+# Ignorar caché de paquetes
+pip-wheel-metadata/
+pip-log.txt
+pip-cache/
+*.egg-info/
+*.egg/
+*.whl
+
+# Ignorar archivos de configuración de IDEs
+.vscode/
+.idea/
+*.iml
+
+# ignorar archivos especiales
+*.sh
+*.md
+data/*
+predictions/*
+trained_models/*

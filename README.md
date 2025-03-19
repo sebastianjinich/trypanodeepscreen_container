@@ -19,19 +19,64 @@ Trained models and generated predictions are stored outside the container and pe
 - Docker. [Install](https://docs.docker.com/get-started/get-docker/)
 - Properly formatted input data
 
+## Workflow Explanation
+
+The TrypanoDeepScreen API follows a structured workflow comprising two main stages:
+
+### 1. Docker Setup
+
+You have two ways to set up the Docker environment for TrypanoDeepScreen:
+
+- **Option A: Pull pre-built Docker image from DockerHub (RECOMENDED)**
+  ```bash
+  docker pull sebastianjinich/trypanodeepscreen:latest
+  ```
+  *(Replace `<dockerhub_username>` with the actual username hosting the image.)*
+
+- **Option B: Build the Docker image from scratch**
+  ```bash
+  docker build -t trypanodeepscreen .
+  ```
+
+### 2. Running the Container
+
+Execute TrypanoDeepScreen by running the Docker container with mounted directories. The general command is:
+
+```bash
+docker run -it \
+    --mount type=bind,src=/path/to/data,dst=/root/trypanodeepscreen/data \
+    --mount type=bind,src=/path/to/experiments,dst=/root/trypanodeepscreen/trained_models \
+    --mount type=bind,src=/path/to/predictions,dst=/root/trypanodeepscreen/predictions \
+    --mount type=bind,src=/path/to/config,dst=/root/trypanodeepscreen/config \
+    --shm-size=15gb \
+    trypanodeepscreen <mode> [options]
+```
+### Operational Workflow
+
+- **Training**: Run training mode with labeled datasets to train a new model.
+- **Prediction**: Run prediction mode using previously trained models to generate bioactivity predictions for new compounds.
+
+
 ## Docker Setup
 
 Build the Docker image:
 
 ```bash
+cd trypanodeepscreen_container # Where Dockerfile is located
 docker build -t trypanodeepscreen .
 ```
+This will build the container from scratch, install all dependencies automaticaly, and get it ready to be run.
+
+```bash
+docker images # run this to find out if the docker was succesfully created
+```
+
 
 ## Running the Trypanodeepscreen in the container
 
 Use bind mounts to connect local directories to the Docker container. Example:
 
-```
+```bash
 docker run -it \
     --mount type=bind,src=/path/to/data,dst=/root/trypanodeepscreen/data \
     --mount type=bind,src=/path/to/experiments,dst=/root/trypanodeepscreen/trained_models \
@@ -55,11 +100,11 @@ By mounting directories in this way, the container can read input data and write
 
 Replace paths accordingly when mounting directories.
 
-### Running docker
+### Modes of running docker
 
 Docker containers can be executed in different modes depending on the use case:
 
-- **Interactive Mode (**`-it`**)**: Runs the container in an interactive session where commands can be executed manually. This is useful for looking into the process output.
+- **Interactive Mode (**`-it`**)**: Runs the container in an interactive session where commands can be executed manually. This is useful for looking into the process output and development.
   ```bash
   docker run -it trypanodeepscreen ...
   ```
@@ -95,7 +140,7 @@ bash train_run_example.sh
 
 ---
 
-## API Modes
+## Detailed API running
 
 ### 1. Train Mode
 Trains the model with hyperparameter tuning.
@@ -187,7 +232,7 @@ balofloxacin   0.107408  0.573296  ...  0.340352
 
 ## Optional Configuration File
 
-Use a YAML file to override default parameters:
+Use a YAML file to override default parameters. Modify the config/config.yml file in the config folder, and mount the folder to the docker.
 
 ```yaml
 mol_draw_options: # Settings for molecule structure visualization
@@ -221,10 +266,5 @@ max_gpus: 2   # Maximum number of GPUs to use
 
 ---
 ## Notes
-- Ensure paths in bind mounts are correctly mapped.
-- Default paths reflect internal container structure.
-
----
-
-Contact the repository maintainer for further assistance.
+Contact the repository [maintainer](sebij1910@gmail.com) for further assistance. 
 

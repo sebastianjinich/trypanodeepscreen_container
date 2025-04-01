@@ -51,7 +51,7 @@ docker run -it \
     --mount type=bind,src=/path/to/predictions,dst=/root/trypanodeepscreen/predictions \
     --mount type=bind,src=/path/to/config,dst=/root/trypanodeepscreen/config \
     --shm-size=15gb \
-    trypanodeepscreen <mode> [options]
+    sebastianjinich/trypanodeepscreen:latest <mode> [options]
 ```
 ### Operational Workflow
 

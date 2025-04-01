@@ -4,7 +4,7 @@ docker run -it\
     --mount type=bind,src=./config,dst=/root/trypanodeepscreen/config\
     --mount type=bind,src=./predictions,dst=/root/trypanodeepscreen/predictions\
     --shm-size=15gb\
-    trypanodeepscreen \
+    sebastianjinich/trypanodeepscreen:latest \
         predict \
             --model_folder_path trained_models/trypano_experiment_example \
             --data_input_prediction data/predict_data_example.csv \

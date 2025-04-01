@@ -74,7 +74,7 @@ docker images # run this to find out if the docker was succesfully created
 ```
 
 
-## Running the Trypanodeepscreen in the container
+## Running Trypanodeepscreen in the container
 
 Use bind mounts to connect local directories to the Docker container. Example:
 
@@ -85,7 +85,7 @@ docker run -it \
     --mount type=bind,src=/path/to/predictions,dst=/root/trypanodeepscreen/predictions \
     --mount type=bind,src=./config,dst=/root/trypanodeepscreen/config\
     --shm-size=15gb \
-    trypanodeepscreen <mode> [options]
+    sebastianjinich/trypanodeepscreen:latest <mode> [options]
 ```
 Replace paths accordingly.
 
@@ -139,6 +139,39 @@ These scripts include the necessary commands to facilitate execution. Read full 
 ```
 bash train_run_example.sh
 ```
+## GPU Usage (Optional)
+
+If you have an NVIDIA GPU and wish to use it for training or prediction to accelerate computation, follow the steps below.
+
+### 1. Install NVIDIA Container Toolkit
+
+To allow Docker containers to access your GPU hardware, you must install the NVIDIA Container Toolkit. Follow the official installation guide:
+
+**NVIDIA Container Toolkit Installation Guide:**
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+
+Make sure to complete all the steps for your operating system. 
+
+### 2. Using GPU with TrypanoDeepScreen
+
+Once the toolkit is installed and GPU is available to Docker, you can run TrypanoDeepScreen with GPU support by adding the `--gpus "all"` flag to the Docker command:
+
+```bash
+docker run -it \
+    --mount type=bind,src=./data,dst=/root/trypanodeepscreen/data \
+    --mount type=bind,src=./trained_models,dst=/root/trypanodeepscreen/trained_models \
+    --mount type=bind,src=./config,dst=/root/trypanodeepscreen/config \
+    --mount type=bind,src=./predictions,dst=/root/trypanodeepscreen/predictions \
+    --shm-size=15gb \
+    --gpus "all" \
+    sebastianjinich/trypanodeepscreen:latest \
+       train \
+            --data_train_val_test data/train_data_example.csv \
+            --target_name trypano_experiment_example \
+            --experiment_result_path trained_models/
+```
+
+> **Note:** Use the `--gpus "all"` flag **only if your system has compatible NVIDIA GPUs and the NVIDIA Container Toolkit is properly installed.** Otherwise, omit this flag.
 
 ---
 
@@ -182,7 +215,7 @@ docker run -d\
     --mount type=bind,src=./config,dst=/root/trypanodeepscreen/config\
     --mount type=bind,src=./predictions,dst=/root/trypanodeepscreen/predictions\
     --shm-size=15gb\
-    trypanodeepscreen \
+    sebastianjinich/trypanodeepscreen:latest \
         train \
             --data_train_val_test data/train_data_example.csv \
             --target_name trypano_experiment_example \
@@ -212,9 +245,20 @@ predict \
 ### Example:
 
 ```bash
-docker run -it <mount-options> <image_name> predict \
-    --model_folder_path trained_models/model_folder \
-    --data_input_prediction data/input_predictions.csv
+docker run -it\
+    --mount type=bind,src=./data,dst=/root/trypanodeepscreen/data\
+    --mount type=bind,src=./trained_models,dst=/root/trypanodeepscreen/trained_models\
+    --mount type=bind,src=./config,dst=/root/trypanodeepscreen/config\
+    --mount type=bind,src=./predictions,dst=/root/trypanodeepscreen/predictions\
+    --shm-size=15gb\
+    sebastianjinich/trypanodeepscreen:latest \
+        predict \
+            --model_folder_path trained_models/trypano_experiment_example \
+            --data_input_prediction data/predict_data_example.csv \
+            --result_path_prediction_csv predictions/prediction_results_example.csv \
+            --metric_ensambled_prediction val_auroc \
+            --n_checkpoints 26
+
 ```
 
 ### Prediction Output Format

@@ -46,7 +46,7 @@ def get_result_df(experiment_path):
     return experiment.results_df
 
 def parallel_prediction_ensamble(model_experiments_path,data_input,metric,result_path=None,top_n_hparams=40,n_checkpoints=None):
-    ray.init(num_cpus=configs._get_cpu_number())  # Inicia Ray y detecta recursos disponibles
+    ray.init(num_cpus=configs._get_cpu_number(),num_gpus=configs._get_gpu_number())  # Inicia Ray y detecta recursos disponibles
 
     tmp_dir = TemporaryDirectory()
 
